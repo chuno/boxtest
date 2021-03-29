@@ -94,7 +94,7 @@ devices=adb.track_devices()
 for item in devices:
 	print(item)
 	print(item.serial)
-	if item.status=='device' or item.status=='absent':
+	if item.status=='device' :
 		print("device")
 		print("item status",item.status)
 		d = adb.device(serial=item.serial)
