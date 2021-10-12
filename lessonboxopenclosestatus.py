@@ -390,14 +390,13 @@ def get_unique_numbersleancloudext(numbers,activedevicev):
         name=number.get("name")
         print(name)
         if name in uniquename:
-            if name in activedevicev:
-                number.set("boxstatus","kai")
-                number.save()
-            else:
                 number.set("boxstatus","kai")
                 number.save()                
         else:
-            number.set("boxstatus","cun")
+            if name in activedevicev:
+                number.set("boxstatus","cun")
+            else:
+                number.set("boxstatus","kai")
             number.save()     
             uniquename.append(name)
             unique.append(number)
