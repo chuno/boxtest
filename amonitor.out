@@ -1,0 +1,275 @@
+androidmonitor.py:68: UnsupportedWarning: devices is unsupported as of 0.4.0. use device_list() instead
+  print(adb.devices())
+leancloud init success with app_id: rGngnUit9fqERRVjQMfzQhWg-gzGzoHsz, app_key: xWQ3c4CoLPXIlRd6UxLRGndX, region: CN
+[]
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='offline')
+PNXGAM5891406481
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='device')
+PNXGAM5891406481
+device
+serial 
+Phoenix_00CN
+Nokia X7
+PNX
+Nokia X7
+Traceback (most recent call last):
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+socket.timeout: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 600, in urlopen
+    httplib_response = self._make_request(conn, method, url,
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1010, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 950, in send
+    self.connect()
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connection.py", line 163, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0xffff7f3f7280>, 'Connection to 192.168.1.17 timed out. (connect timeout=15)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 640, in urlopen
+    retries = retries.increment(method, url, error=e, _pool=self,
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.17', port=7000): Max retries exceeded with url: /1.1/classes/Androiddevicenew?where=%7B%7D (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0xffff7f3f7280>, 'Connection to 192.168.1.17 timed out. (connect timeout=15)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "androidmonitor.py", line 83, in <module>
+    monitorp(item.serial,d.prop.name,d.prop.model,d.prop.device)
+  File "androidmonitor.py", line 49, in monitorp
+    devicesvv= androiddevicelist()
+  File "androidmonitor.py", line 40, in androiddevicelist
+    query_result = query.find()
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/leancloud/query.py", line 238, in find
+    content = self._do_request(self.dump())
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/leancloud/query.py", line 196, in _do_request
+    return client.get(
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/leancloud/client.py", line 109, in new_func
+    return func(headers=headers, *args, **kwargs)
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/leancloud/client.py", line 167, in new_func
+    response = func(*args, **kwargs)
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/leancloud/client.py", line 215, in get
+    response = session.get(
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/ubuntu/jncloudvenv3/lib/python3.8/site-packages/requests/adapters.py", line 504, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.17', port=7000): Max retries exceeded with url: /1.1/classes/Androiddevicenew?where=%7B%7D (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0xffff7f3f7280>, 'Connection to 192.168.1.17 timed out. (connect timeout=15)'))
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+leancloud init success with app_id: rGngnUit9fqERRVjQMfzQhWg-gzGzoHsz, app_key: xWQ3c4CoLPXIlRd6UxLRGndX, region: CN
+[]
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='offline')
+PNXGAM5891406481
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='device')
+PNXGAM5891406481
+device
+serial 
+Phoenix_00CN
+Nokia X7
+PNX
+Nokia X7
+<leancloud.object_.Androiddevicenew object at 0xffffbc5bcfa0>
+{'serial': 'R58MA0PDHXR', 'name': 'm30szc', 'model': 'SM-M3070', 'device': 'm30s', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-19T14:07:18.030Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbc5bcfa0>
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='offline')
+PNXGAM5891406481
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='device')
+PNXGAM5891406481
+device
+serial 
+Phoenix_00CN
+Nokia X7
+PNX
+Nokia X7
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+{'serial': 'PNXGAM5891406481', 'name': 'Phoenix_00CN', 'model': 'Nokia X7', 'device': 'PNX', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:38:16.378Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='offline')
+PNXGAM5891406481
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='PNXGAM5891406481', status='device')
+PNXGAM5891406481
+device
+serial 
+Phoenix_00CN
+Nokia X7
+PNX
+Nokia X7
+<leancloud.object_.Androiddevicenew object at 0xffffbcc32040>
+{'serial': 'PNXGAM5891406481', 'name': 'Phoenix_00CN', 'model': 'Nokia X7', 'device': 'PNX', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:38:20.431Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc32040>
+DeviceEvent(present=False, serial='PNXGAM5891406481', status='absent')
+PNXGAM5891406481
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='device')
+KWG7N16819006555
+device
+serial 
+EVA-AL10
+EVA-AL10
+HWEVA
+EVA-AL10
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+{'serial': 'PNXGAM5891406481', 'name': 'Phoenix_00CN', 'model': 'Nokia X7', 'device': 'PNX', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:39:26.285Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='device')
+KWG7N16819006555
+device
+serial 
+EVA-AL10
+EVA-AL10
+HWEVA
+EVA-AL10
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+{'serial': 'KWG7N16819006555', 'name': 'EVA-AL10', 'model': 'EVA-AL10', 'device': 'HWEVA', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:39:55.153Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='device')
+KWG7N16819006555
+device
+serial 
+EVA-AL10
+EVA-AL10
+HWEVA
+EVA-AL10
+<leancloud.object_.Androiddevicenew object at 0xffffbcc32040>
+{'serial': 'KWG7N16819006555', 'name': 'EVA-AL10', 'model': 'EVA-AL10', 'device': 'HWEVA', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:39:57.931Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc32040>
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='50b54900', status='offline')
+50b54900
+DeviceEvent(present=False, serial='50b54900', status='absent')
+50b54900
+DeviceEvent(present=True, serial='50b54900', status='device')
+50b54900
+device
+serial 
+virgo
+MI NOTE LTE
+virgo
+MI NOTE LTE
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+{'serial': 'KWG7N16819006555', 'name': 'EVA-AL10', 'model': 'EVA-AL10', 'device': 'HWEVA', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:40:24.228Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='device')
+KWG7N16819006555
+device
+serial 
+EVA-AL10
+EVA-AL10
+HWEVA
+EVA-AL10
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+{'serial': '50b54900', 'name': 'virgo', 'model': 'MI NOTE LTE', 'device': 'virgo', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:43:38.815Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc320a0>
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=True, serial='KWG7N16819006555', status='offline')
+KWG7N16819006555
+DeviceEvent(present=False, serial='KWG7N16819006555', status='absent')
+KWG7N16819006555
+DeviceEvent(present=False, serial='50b54900', status='absent')
+50b54900
+DeviceEvent(present=True, serial='50b54900', status='offline')
+50b54900
+DeviceEvent(present=False, serial='50b54900', status='absent')
+50b54900
+DeviceEvent(present=True, serial='50b54900', status='device')
+50b54900
+device
+serial 
+virgo
+MI NOTE LTE
+virgo
+MI NOTE LTE
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+{'serial': 'KWG7N16819006555', 'name': 'EVA-AL10', 'model': 'EVA-AL10', 'device': 'HWEVA', 'createdAt': {'__type': 'Date', 'iso': '2021-02-17T08:39:00.198Z'}, 'updatedAt': {'__type': 'Date', 'iso': '2021-02-26T15:43:56.763Z'}, 'objectId': '602cd624f16b01cc63947d6a', '__type': 'Object', 'className': 'Androiddevicenew'}
+<leancloud.object_.Androiddevicenew object at 0xffffbcc326d0>
+DeviceEvent(present=False, serial='50b54900', status='absent')
+50b54900
+DeviceEvent(present=True, serial='50b54900', status='offline')
+50b54900
+DeviceEvent(present=False, serial='50b54900', status='absent')
+50b54900
+DeviceEvent(present=True, serial='50b54900', status='device')
+50b54900
+device
+serial 
+virgo
+MI NOTE LTE
+virgo
+MI NOTE LTE* daemon not running; starting now at tcp:5037
+* daemon started successfully
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+                                                                             * daemon not running; starting now at tcp:5037
+* daemon started successfully
