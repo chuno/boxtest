@@ -73,13 +73,26 @@ def montiorlesson(lesson):
 		serialv= checked(lesson)
 		if len(serialv)==0:
 			return 
-		
+
+def getModel(serial):
+        Todo = leancloud.Object.extend('Student')
+        query = Todo.query
+        query.equal_to('androidid', serial);
+        adevice = None
+        try:
+            student = query.first()
+            return student.get("model")
+        except Exception as e:
+            print("except ",e)
+        return None
+
 
 
 #kangding
 import os
 import json
 import leancloud
+import time
 from leancloud.utils import encode
 #os.environ.setdefault('LEANCLOUD_API_SERVER', "http://localhost:5000")
 
@@ -91,23 +104,35 @@ adb = adbutils.AdbClient(host="127.0.0.1", port=5037)
 print(adb.devices())
 
 devices=adb.track_devices()
-for item in devices:
-	print(item)
-	print(item.serial)
+while True:
 	try:
-		if item.status=='device' :
-			print("device")
-			print("item status",item.status)
-			d = adb.device(serial=item.serial)
-			serial = d.shell(["getprop", "ro.serial"],timeout=0.5)
-			print("serial",serial)
-			print("name=",d.prop.name)
-			print("model=",d.prop.model)
-			print("device=",d.prop.device)
-			print("moddel=",d.prop.get("ro.product.model"))
-			monitorp(item.serial,item.status,d.prop.model)
-		else:
-			monitorpnodevice(item.serial,item.status,"")
+		for item in devices:
+			print(item)
+			print(item.serial)
+			try:
+				if item.status=='device' :
+					print("device")
+					print("item status",item.status)
+					d = adb.device(serial=item.serial)
+					serial = d.shell(["getprop", "ro.serial"],timeout=0.5)
+					print("serial",serial)
+					print("name=",d.prop.name)
+					print("model=",d.prop.model)
+					print("device=",d.prop.device)
+					print("moddel=",d.prop.get("ro.product.model"))
+					monitorp(item.serial,item.status,d.prop.model)
+				else:
+					if item.status=='unauthorized' :
+						model=getModel(item.serial)
+						if  model is None:
+							monitorp(item.serial,"device","undefined")
+						else:
+							monitorp(item.serial,"device",model)
+					else:
+						monitorpnodevice(item.serial,item.status,"")
+			except Exception as e:
+				print(e)
 	except Exception as e:
-                print(item.serial)
-                print(e)
+		print("devices except")
+		print(e)
+		time.sleep(1)
