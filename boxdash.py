@@ -25,7 +25,7 @@ def studentlist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
 #        print(value)
         conv.append(item)
@@ -38,7 +38,7 @@ def serial2model():
         model = item.get("model")
         if serial is not None:
             serialdict[serial]=model
-    print("serialmodeldict",serialdict)
+    # print("serialmodeldict",serialdict)
     return serialdict
 
 def androiddevicelistbystatus():
@@ -48,9 +48,9 @@ def androiddevicelistbystatus():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 #my1
@@ -86,7 +86,7 @@ def newBox(boxdata,serialdict,serialmoodeldict ):
     boxdate1 = boxdate.to('Asia/Shanghai')
     test_object.set('boxtime',boxdate1.datetime)                
     test_object.save()
-    print(test_object)
+    # print(test_object)
 #mymymy
 def updateBox(test_object,boxdata,serialdict,serialmoodeldict ):
 
@@ -118,7 +118,7 @@ def updateBox(test_object,boxdata,serialdict,serialmoodeldict ):
     boxdate1 = boxdate.to('Asia/Shanghai')
     test_object.set('boxtime',boxdate1.datetime)                
     test_object.save()
-    print(test_object)
+    # print(test_object)
 
 def userarray2namearray(useridv,serialdict):
         over=[]
@@ -142,7 +142,7 @@ def updateBox1(test_object,boxdata,serialdict):
     boxdate1 = boxdate.to('Asia/Shanghai')
     test_object.set('boxtime',boxdate1.datetime)                
     test_object.save()
-    print(test_object)
+    # print(test_object)
 def boxlist(boxNumber):
     Todo = leancloud.Object.extend('Box')
     query = Todo.query
@@ -151,9 +151,9 @@ def boxlist(boxNumber):
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 
@@ -171,8 +171,8 @@ headers = {
     "Content-Type": "application/json; charset=UTF-8"
     }
 payload={
-	"serialNumber": os.environ.get("BOX_ID","068bebf627d6ab24"),
-	"devicepass": "123456",
+	"serialNumber": os.environ.get("BOX_ID","3dcc6b61375ee359"),
+	"devicepass": os.environ.get("devicepass","626364"),
 	"tasktype": "7",
 	"data": "[0,10,0,0]"
 }
@@ -186,30 +186,30 @@ def userid2student():
             serialdict[serial]=name,item.get("androidid")
     return serialdict
 
-    print("serialdiict",serialdict)
+    # print("serialdiict",serialdict)
 def boxstatus():
     serialdict =userid2student()
     serialmoodeldict = serial2model()
 
-    print("serialdict",serialdict)
+    # print("serialdict",serialdict)
     payload={
-        "serialNumber": "068bebf627d6ab24",
-        "devicepass": "123456",
+        "serialNumber": os.environ.get("BOX_ID","3dcc6b61375ee359"),
+        "devicepass": os.environ.get("devicepass","626364"),
         "tasktype": "23",
         "data": ""
     }
 
     response = requests.post(url, data=json.dumps(payload), headers=headers).text
-    print(response)
+    # print(response)
     with open('./boxstatus.json', 'w') as json_file:
         json_file.write(response)
 
     r = json.loads(response)
     #print("taskid",r['taskid'])
-    print("code",r["code"])
-    for item in r["data"]:
-        print(item)
-    print("hello")
+    # print("code",r["code"])
+    # for item in r["data"]:
+        # print(item)
+    # print("hello")
     retv= map(lambda item:boxmonitor(item['boxNumber'],item,serialdict,serialmoodeldict ),r['data'])
     print(list(retv))
 def personstatus():
@@ -219,8 +219,8 @@ def personstatus():
 
     datav=[0,200,yest.timestamp*1000,todaydate.timestamp*1000]
     payload={
-        "serialNumber": "068bebf627d6ab24",
-        "devicepass": "123456",
+        "serialNumber": os.environ.get("BOX_ID","3dcc6b61375ee359"),
+        "devicepass": os.environ.get("devicepass","626364"),
         "tasktype": "7",
         "data": json.dumps(datav)
     }
@@ -229,8 +229,8 @@ def personstatus():
         json_file.write(response)
 
     r = json.loads(response)
-    for item in r["data"]:
-        print("p=",item)
+    # for item in r["data"]:
+    #     print("p=",item)
 def startMonitor():
 #    scheduler.add_job(event_monitor,'interval', minutes=1) 
     scheduler.add_job(boxstatus,'interval', seconds=20) 

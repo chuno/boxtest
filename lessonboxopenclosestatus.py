@@ -38,7 +38,7 @@ def androiddevicelist():
     for item in query_result:
         # print(item)
         value=encode(item,dump_objects=True)
-        # print(value)
+        print(value)
         conv.append(item)
     return list(conv)
 def androiddevicelistbystatus():
@@ -50,7 +50,7 @@ def androiddevicelistbystatus():
     for item in query_result:
         # print(item)
         value=encode(item,dump_objects=True)
-        # print(value)
+        print(value)
         conv.append(item)
     return list(conv)
 
@@ -102,14 +102,27 @@ def studentlist():
 def studentlistbyuserlevel(userlevel):
     Todo = leancloud.Object.extend('Student')
     query = Todo.query
-    query.equal_to("group",userlevel)
+    query.equal_to("userLevel",userlevel)
 
     query_result = query.find()
     conv=[]
     for item in query_result:
         # print(item)
         value=encode(item,dump_objects=True)
-        print(value)
+#        print(value)
+        conv.append(item)
+    return list(conv)
+def studentlistbygroup(group):
+    Todo = leancloud.Object.extend('Student')
+    query = Todo.query
+    query.equal_to("group",group)
+
+    query_result = query.find()
+    conv=[]
+    for item in query_result:
+        # print(item)
+        # value=encode(item,dump_objects=True)
+#        print(value)
         conv.append(item)
     return list(conv)
 
@@ -153,6 +166,10 @@ def getMembervbyuserlevel(userlevel):
         studentv = studentlistbyuserlevel(userlevel)
         memberv = map(lambda item: item.get("name"),studentv)
         return list(memberv)
+def getMembervbygroup(group):
+        studentv = studentlistbygroup(group)
+        memberv = map(lambda item: item.get("name"),studentv)
+        return list(memberv)
 
 
 def processlessonbyuserLevel(newlesson):
@@ -164,7 +181,7 @@ def processlessonbyuserLevel(newlesson):
         if serial is not None:
             serialdict[serial]=name
     # print("serialdiict",serialdict)
-    userlevel = newlesson.get("group")
+    userlevel = newlesson.get("userLevel")
     memberv = getMembervbyuserlevel(userlevel)
     # print("memberv=",memberv)
 
@@ -182,17 +199,68 @@ def processlessonbyuserLevel(newlesson):
     todaystr=today.format("YYYYMMDD")
     newlesson.set(todaystr+"checked",1)
     newlesson.save()
+def processlessonbygroup(newlesson):
+    studentv = studentlist()
+    serialdict = {}
+    for item in studentv:
+        serial = item.get("androidid")
+        name = item.get("name")
+        if serial is not None:
+            serialdict[serial]=name
+    # print("serialdiict",serialdict)
+    userlevel = newlesson.get("group")
+    memberv = getMembervbygroup(userlevel)
+    # print("memberv=",memberv)
+
+    devicev = androiddevicelistbystatus()
+    joindevicev = list(android2member(devicev,serialdict))
+    # print("devicev=",devicev)
+    # print("joindevicev",joindevicev)
+    # print(set(memberv)- set(joindevicev))
+    nojoin = set(memberv)- set(joindevicev)
+    print("no join=",nojoin)
+ 
+    lessontime=arrow.utcnow()
+#    lessontime30 = lessontime.shift(minutes=-30)
+    todaylv=lessoninfolisttoday()
+    prevstarttime = prevStarttime(todaylv,newlesson)
+    lessontime30=startTimetoDate(prevstarttime )
+    faceboxcachev=faceboxlistlast5(lessontime.timestamp*1000,lessontime30.timestamp*1000)
+    print("faceboxcachev1",faceboxcachev)
+    get_unique_numbersleancloudext(faceboxcachev,joindevicev)
+
+    today1 = arrow.utcnow()
+    today=today1.to('Asia/Shanghai')
+    todaystr=today.format("YYYYMMDD")
+    newlesson.set(todaystr+"faceboxcachechecked",1)
+    newlesson.save()
+
 def lessonlist():
     Student = leancloud.Object.extend('Lesson')
     query = Student.query
     today1 = arrow.utcnow()
     today=today1.to('Asia/Shanghai')
     todaystr=today.format("YYYYMMDD")
-    query.not_equal_to(todaystr+"checked", 1)
+    query.not_equal_to(todaystr+"faceboxcachechecked", 1)
     query.descending('createdAt')
     student_list = query.find()
     return student_list
+def lessoninfolist():
+    Student = leancloud.Object.extend('Lesson')
+    query = Student.query
+    today1 = arrow.utcnow()
+    today=today1.to('Asia/Shanghai')
+    todaystr=today.format("YYYYMMDD")
+    query.ascending('startTime')
+    student_list = query.find()
+    return student_list
 
+def lessoninfolisttoday():
+        student_list= lessoninfolist()
+        todaylesson=filter(lambda lesson:isTodaylesson(lesson),student_list)
+        todaylessonv= list(todaylesson)
+        print("todaylessoonv",todaylessonv)
+        return todaylessonv
 
 def newAlertlog(name,lesson):
     print("name=",name)
@@ -216,7 +284,7 @@ def isWorktime(todaydate,starttime,endtime):
     todaydate=todaydate.to('Asia/Shanghai')
     nowstr = todaydate.format("HH:mm")
 
-    # print("nowstr",nowstr)
+    print("nowstr",nowstr)
     if nowstr <starttime:
         return False
     if nowstr > endtime:
@@ -224,12 +292,13 @@ def isWorktime(todaydate,starttime,endtime):
     return True
 def isTodaylessonlm(lesson1):
     lm = arrow.get(lesson1.get('lm'))
-    # print("lm=",lm)
+    print("lm=",lm)
     ret= isToday(lm)
     return ret
 def isTodaylesson(lesson1):
     dates = lesson1.get('dates')
-    # print("dates=",dates)
+    print("dates=",dates)
+    print("\n")
     if dates is None:
         return False
     for lm in dates:
@@ -248,16 +317,114 @@ def isLessonworktime(lesson1):
     ret =isWorktime(arrow.utcnow(),starttime,endtime)
     return ret
 
+def alerttest():
+        student_list= lessonlist()
+        todaylesson=filter(lambda lesson:isTodaylesson(lesson),student_list)
+        todaylessonv= list(todaylesson)
+        print("todaylessoonv",todaylessonv)
+
+        workinglesson = filter(lambda lesson: isLessonworktime(lesson),todaylessonv)
+        for item in list(workinglesson):
+            value=encode(item,dump_objects=True)
+            print(value)
+            processlessonbygroup(item)
+
 def alert():
         student_list= lessonlist()
         todaylesson=filter(lambda lesson:isTodaylesson(lesson),student_list)
         todaylessonv= list(todaylesson)
         print("todaylessoonv",todaylessonv)
+
         workinglesson = filter(lambda lesson: isLessonworktime(lesson),todaylessonv)
         for item in list(workinglesson):
             value=encode(item,dump_objects=True)
-            # print(value)
-            processlessonbyuserLevel(item)
+            print(value)
+            processlessonbygroup(item)
+        print("alert end\n")
+
+def faceboxlistlast5(lessontime,lessontime1):
+    Todo = leancloud.Object.extend('Faceboxcache')
+    query = Todo.query
+    query.less_than("boxtime",lessontime)
+    query.greater_than("boxtime",lessontime1)
+    query.descending('boxtime')
+    print("lessontime1=",lessontime1)
+    query_result = query.find()
+    conv=[]
+    for item in query_result:
+        print(item)
+        value=encode(item,dump_objects=True)
+        print(value)
+        conv.append(item)
+    return conv
+def get_unique_numbers(numbers):
+    unique = []
+    uniquename=[]
+    for number in numbers:
+        name=number.get("name")
+        print(name)
+        if number in uniquename:
+            continue
+        else:
+            unique.append(number)
+    return unique
+def get_unique_numbersleancloud(numbers):
+    unique = []
+    uniquename=[]
+    for number in numbers:
+        name=number.get("name")
+        print(name)
+        if name in uniquename:
+            number.set("boxstatus","kai")
+            number.save()
+        else:
+            number.set("boxstatus","cun")
+            number.save()     
+            uniquename.append(name)
+            unique.append(number)
+    return unique
+def get_unique_numbersleancloudext(numbers,activedevicev):
+    unique = []
+    uniquename=[]
+    for number in numbers:
+        name=number.get("name")
+        print(name)
+        if name in uniquename:
+                number.set("boxstatus","kai")
+                number.save()                
+        else:
+            if name in activedevicev:
+                number.set("boxstatus","cun")
+            else:
+                number.set("boxstatus","kai")
+            number.save()     
+            uniquename.append(name)
+            unique.append(number)
+    return unique
+def prevlesson(todaylessonv,lesson):
+    i=0
+    for item in todaylessonv:
+        if lesson.id==item.id:
+            return i
+        i=i+1
+    return None
+def prevStarttime(todaylessonv,lesson):
+    ret = prevlesson(todaylessonv,lesson)
+    if ret is None or ret ==0:
+        return "00:00"
+    else:
+        return todaylessonv[ret-1].get("endTime")
+def startTimetoDate(starttime):
+    hour1=starttime[0:2]
+    min1 = starttime[3:5]
+    print(hour1)
+    print(min1)
+    today1=arrow.utcnow()
+    today=today1.to('Asia/Shanghai')
+    
+    newdate=today.replace(hour=int(hour1), minute=int(min1))
+    print(newdate)
+    return newdate
 
 #kangding
 import os
@@ -276,11 +443,11 @@ def startMonitor():
 
 os.environ['LEANCLOUD_API_SERVER'] = os.environ.get('LEANCLOUD_API_SERVER',"http://192.168.31.82:7000")
 
-init_leancloud_client()
-scheduler = BackgroundScheduler()
-startMonitor()
-
-time.sleep(50000000) 
+if __name__ == '__main__':
+    init_leancloud_client()
+    scheduler = BackgroundScheduler()
+    startMonitor()
+    time.sleep(50000000) 
 
 
 
