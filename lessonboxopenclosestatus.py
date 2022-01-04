@@ -22,13 +22,13 @@ def newAndroiddevice(serial):
     test_object.set('serial',serial)
 
     test_object.save()
-    print(test_object)
+    # print(test_object)
 def updateAndroiddevice(androido,serial):
 
     androido.set('serial',serial)
 
     androido.save()
-    print(androido)
+    # print(androido)
     
 def androiddevicelist():
     Todo = leancloud.Object.extend('Androiddevice')
@@ -36,7 +36,7 @@ def androiddevicelist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
         conv.append(item)
@@ -48,7 +48,7 @@ def androiddevicelistbystatus():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
         conv.append(item)
@@ -94,7 +94,7 @@ def studentlist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
 #        print(value)
         conv.append(item)
@@ -107,7 +107,7 @@ def studentlistbyuserlevel(userlevel):
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
 #        print(value)
         conv.append(item)
@@ -120,8 +120,8 @@ def studentlistbygroup(group):
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
+        # print(item)
+        # value=encode(item,dump_objects=True)
 #        print(value)
         conv.append(item)
     return list(conv)
@@ -149,7 +149,7 @@ def processlesson(newlesson):
         name = item.get("name")
         if serial is not None:
             serialdict[serial]=name
-    print("serialdiict",serialdict)
+    # print("serialdiict",serialdict)
     memberv = newlesson.get("members")
 
     devicev = androiddevicelistbystatus()
@@ -180,16 +180,16 @@ def processlessonbyuserLevel(newlesson):
         name = item.get("name")
         if serial is not None:
             serialdict[serial]=name
-    print("serialdiict",serialdict)
+    # print("serialdiict",serialdict)
     userlevel = newlesson.get("userLevel")
     memberv = getMembervbyuserlevel(userlevel)
-    print("memberv=",memberv)
+    # print("memberv=",memberv)
 
     devicev = androiddevicelistbystatus()
     joindevicev = list(android2member(devicev,serialdict))
     
-    print("joindevicev",joindevicev)
-    print(set(memberv)- set(joindevicev))
+    # print("joindevicev",joindevicev)
+    # print(set(memberv)- set(joindevicev))
     nojoin = set(memberv)- set(joindevicev)
     print("no join=",nojoin)
     for student in nojoin:
@@ -207,16 +207,16 @@ def processlessonbygroup(newlesson):
         name = item.get("name")
         if serial is not None:
             serialdict[serial]=name
-    print("serialdiict",serialdict)
+    # print("serialdiict",serialdict)
     userlevel = newlesson.get("group")
     memberv = getMembervbygroup(userlevel)
-    print("memberv=",memberv)
+    # print("memberv=",memberv)
 
     devicev = androiddevicelistbystatus()
     joindevicev = list(android2member(devicev,serialdict))
-    print("devicev=",devicev)
-    print("joindevicev",joindevicev)
-    print(set(memberv)- set(joindevicev))
+    # print("devicev=",devicev)
+    # print("joindevicev",joindevicev)
+    # print(set(memberv)- set(joindevicev))
     nojoin = set(memberv)- set(joindevicev)
     print("no join=",nojoin)
  

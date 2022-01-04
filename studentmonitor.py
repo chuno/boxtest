@@ -49,20 +49,20 @@ def studentlist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 
 def studentsync1(item):
-        print("sync")
-        print(item)
+        # print("sync")
+        # print(item)
         value=encode(item,dump_objects=True)
-        print(value)
-        print("boxNumber",item.get("boxNumber"))
-        print("name",item.get("name"))
-        print("imageUrl",item.get("imageurl"))
+        # print(value)
+        # print("boxNumber",item.get("boxNumber"))
+        # print("name",item.get("name"))
+        # print("imageUrl",item.get("imageurl"))
         boxnumber = item.get("boxNumber")
         if boxnumber is None:
             boxnumber= 1
@@ -89,7 +89,7 @@ def monitorstudent():
 #        print("student",mylist)
 #        map(lambda student:studentsync(student), slist)
         for item in slist:
-            print("newitem",item)
+            # print("newitem",item)
             studentsync1(item)
 
 def uploadperson(name,imageUrl,boxnumber):
@@ -101,7 +101,7 @@ def uploadperson(name,imageUrl,boxnumber):
 		"base64": ""	
         }
     ret = requests.get(imageUrl)
-    print(ret)
+    # print(ret)
 
     base64_data = base64.b64encode(ret.content)
     data['base64'] = base64_data.decode("utf8")
@@ -113,10 +113,10 @@ def uploadperson(name,imageUrl,boxnumber):
 		"data": json.dumps(data)
 	}
     response = requests.post(url, data=json.dumps(payload), headers=headers).text
-    print(response)
+    # print(response)
     retdict = json.loads(response)
-    print("code",retdict['code'])
-    print("msg",retdict["msg"])
+    # print("code",retdict['code'])
+    # print("msg",retdict["msg"])
     if retdict['code'] == 1:
         print("keys=",retdict["data"].keys())
         print("id=",retdict['data']["id"])     

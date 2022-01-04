@@ -30,13 +30,13 @@ def newAndroiddevice(serial):
     test_object.set('serial',serial)
 
     test_object.save()
-    print(test_object)
+    # print(test_object)
 def updateAndroiddevice(androido,serial):
 
     androido.set('serial',serial)
 
     androido.save()
-    print(androido)
+    # print(androido)
     
 def androiddevicelist():
     Todo = leancloud.Object.extend('Androiddevice')
@@ -44,9 +44,9 @@ def androiddevicelist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 def monitorp(serial):
@@ -84,9 +84,9 @@ def boxlist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 
@@ -111,18 +111,18 @@ def boxlog(name):
     }
     response = requests.post(url, data=json.dumps(payload), headers=headers).text
 #    print(response)
-    print("hello")
+#     print("hello")
     logv = json.loads(response)
-    print(logv['code'])
+    # print(logv['code'])
 #    print(logv['data'])
     logdatav = logv['data']
     retv=[]
     for logitem in logdatav:
 #        print(logitem)
-        print(logitem['result'])
-        print(logitem['time'])
+#         print(logitem['result'])
+#         print(logitem['time'])
         logtime= arrow.get(logitem['time'])
-        print(logtime)
+        # print(logtime)
         print(logtime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]+"Z")
         retv.append({"boxresult":logitem['result'],"createdAt":logtime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]+"Z"})
     return retv
@@ -138,9 +138,9 @@ def boxlogbypage(first,end,firstt,endt,flag):
     }
     response = requests.post(url, data=json.dumps(payload), headers=headers).text
 #    print(response)
-    print("hello")
+#     print("hello")
     logv = json.loads(response)
-    print(logv['code'])
+    # print(logv['code'])
 #    print(logv['data'])
     logdatav = logv['data']
     retv=[]
@@ -167,20 +167,19 @@ def boxlogbypageold(first,end,firstt,endt,flag):
     }
     response = requests.post(url, data=json.dumps(payload), headers=headers).text
 #    print(response)
-    print("hello")
+#     print("hello")
     logv = json.loads(response)
-    print(logv['code'])
+    # print(logv['code'])
 #    print(logv['data'])
     logdatav = logv['data']
     retv=[]
     for logitem in logdatav:
-#        print(logitem)
-
-        print(logitem['result'])
-        print(logitem['time'])
-        print(logitem['name'])
+        # print(logitem)
+        # print(logitem['result'])
+        # print(logitem['time'])
+        # print(logitem['name'])
         logtime= arrow.get(logitem['time'])
-        print(logtime)
+        # print(logtime)
         print(logtime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]+"Z")
         retv.append({"name":logitem['name'],"boxresult":logitem['result'],"createdAt":logtime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]+"Z"})
     return retv
@@ -223,9 +222,9 @@ def faceboxlist():
     Todo = leancloud.Object.extend('Facebox')
     query = Todo.query
     query_result = query.find()
-    conv=[]
+    # conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
 
@@ -236,24 +235,24 @@ def faceboxlistbyname():
     
     query_result = query.find()
 
-    conv=[]
+    # conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
 
 def faceboxlistbynamepage():
     Todo = leancloud.Object.extend('Facebox')
     query = Todo.query
-    query.equal_to('name', "蔡");
+    query.equal_to('name', "");
     query.skip(1)
     query.limit(2) 
 
     query_result = query.find()
 
-    conv=[]
+    # conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
 
@@ -261,7 +260,7 @@ def faceboxlistbynamepage():
 def faceboxlistbynamepagecount():
     Todo = leancloud.Object.extend('Facebox')
     query = Todo.query
-    query.equal_to('name', "蔡");
+    query.equal_to('name', "");
     count = query.count()
     print("count",count)
 
@@ -279,7 +278,7 @@ def faceboxallpage():
 
     conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         value=encode(item,dump_objects=True)
         print(value)
 
@@ -320,10 +319,10 @@ def boxlogall(timeseg):
     while bContinue:
         
         retv=boxlogbypage(begini,endi,btime,endtime,-1)
-        print("len retv",len(retv))
+        # print("len retv",len(retv))
         for item in retv:
             newFaceboxcache(item['name'],item['boxresult'],item['boxtime'],item['type'])
-        print(retv)
+        # print(retv)
         if len(retv)<20:
             bContinue=False
         begini = begini +20
@@ -340,7 +339,7 @@ def newFaceboxcache(name,boxresult,boxtime ,type1):
     test_object.set('boxtime',boxtime)  
     test_object.set('type',type1)  
     test_object.save()
-    print(test_object)
+    # print(test_object)
 
 
 def faceboxcachelist():
@@ -353,9 +352,9 @@ def faceboxcachelist():
     query_result = query.find()
     conv=[]
     for item in query_result:
-        print(item)
-        value=encode(item,dump_objects=True)
-        print(value)
+        # print(item)
+        # value=encode(item,dump_objects=True)
+        # print(value)
         conv.append(item)
     return list(conv)
 def faceboxcachedestroy():
@@ -366,9 +365,9 @@ def faceboxcachedestroy():
 #    query.ascending('boxtime')
 
     query_result = query.find()
-    conv=[]
+    # conv=[]
     for item in query_result:
-        print(item)
+        # print(item)
         item.destroy()
 
 def faceboxcachelatest():
