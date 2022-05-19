@@ -6,4 +6,4 @@ sudo adb kill-server
 sleep 30
 sudo adb start-server
 source ~/jncloudvenv3/bin/activate
-nohup python3 -u lessonmonitor.py>>lessonmonitor.out  2>&1 &
+nohup python3 androidmonitor.py>>amonitor.out  2>&1 &
