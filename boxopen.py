@@ -9,7 +9,7 @@ headers = {
 def openbox(i):
     boxv=[i]
     payload={
-        "serialNumber": os.environ.get("BOX_ID","3dcc6b61375ee359"),
+        "serialNumber": os.environ.get("BOX_ID","27043b125bbab5a1"),
         "devicepass": os.environ.get("devicepass","626364"),
         "tasktype": "24",
         "data": json.dumps(boxv)
